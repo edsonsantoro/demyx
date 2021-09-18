@@ -14,7 +14,7 @@ demyx_pull() {
         [[ -n "$(docker images demyx/code-server:openlitespeed -q)" ]] && docker pull demyx/code-server:openlitespeed
         [[ -n "$(docker images demyx/code-server:openlitespeed-bedrock -q)" ]] && docker pull demyx/code-server:openlitespeed-bedrock
         [[ -n "$(docker images demyx/code-server:wp -q)" ]] && docker pull demyx/code-server:wp
-        docker pull demyx/demyx
+        docker pull santorodevstudio/demyx
         docker pull demyx/docker-compose
         docker pull demyx/docker-socket-proxy
         docker pull demyx/logrotate

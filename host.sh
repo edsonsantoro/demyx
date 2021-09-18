@@ -65,7 +65,7 @@ demyx_config() {
         DEMYX_HOST_HOSTNAME=${DEMYX_HOST_HOSTNAME:-$(hostname)}
         DEMYX_HOST_MEM=${DEMYX_HOST_MEM:-512m}
         DEMYX_HOST_MONITOR=${DEMYX_HOST_MONITOR:-true}
-        DEMYX_HOST_SERVER_IP=${DEMYX_HOST_SERVER_IP:-$(docker run -t --rm --user=root --entrypoint=curl demyx/demyx -s https://ipecho.net/plain)}
+        DEMYX_HOST_SERVER_IP=${DEMYX_HOST_SERVER_IP:-$(docker run -t --rm --user=root --entrypoint=curl santorodevstudio/demyx -s https://ipecho.net/plain)}
         DEMYX_HOST_TELEMETRY=${DEMYX_HOST_TELEMETRY:-true}
         DEMYX_HOST_TRAEFIK_DASHBOARD=${DEMYX_HOST_TRAEFIK_DASHBOARD:-false}
         DEMYX_HOST_TRAEFIK_DASHBOARD_DOMAIN=${DEMYX_HOST_TRAEFIK_DASHBOARD_DOMAIN:-traefik}
@@ -95,7 +95,7 @@ demyx_install() {
     --entrypoint=bash \
     -v "$HOME":/tmp \
     -v demyx:/demyx \
-    demyx/demyx /etc/demyx/bin/demyx-migrate.sh
+    santorodevstudio/demyx /etc/demyx/bin/demyx-migrate.sh
 
     # Source udpated configs
     demyx_config
@@ -217,7 +217,7 @@ demyx_run() {
     -e DEMYX_TRAEFIK_LOG="$DEMYX_HOST_TRAEFIK_LOG" \
     -e DOCKER_HOST="" \
     -e TZ="$DEMYX_HOST_TZ" \
-    demyx/demyx
+    santorodevstudio/demyx
 
     demyx_compose up -d
 }
@@ -258,7 +258,7 @@ elif [[ "$DEMYX_HOST" = host ]]; then
                 --user=root \
                 --entrypoint=nano \
                 -v "$DEMYX_HOST_CONFIG":/tmp/.demyx \
-                demyx/demyx /tmp/.demyx
+                santorodevstudio/demyx /tmp/.demyx
         fi
     elif [[ "$DEMYX_HOST_COMMAND" = help ]]; then
         demyx_help

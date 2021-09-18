@@ -72,7 +72,7 @@ services:
       - VOLUMES=1
     $DEMYX_YML_PRIVILEGED
   demyx:
-    image: demyx/demyx:${DEMYX_IMAGE_VERSION}
+    image: santorodevstudio/demyx:${DEMYX_IMAGE_VERSION}
     cpus: $DEMYX_CPU
     mem_limit: $DEMYX_MEM
     container_name: demyx

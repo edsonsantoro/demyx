@@ -48,6 +48,6 @@ demyx_update() {
             --user=root \
             --privileged \
             --entrypoint=bash \
-            demyx/demyx -c 'cp -f /etc/demyx/host.sh /tmp/demyx; chmod +x /tmp/demyx'
+            santorodevstudio/demyx -c 'cp -f /etc/demyx/host.sh /tmp/demyx; chmod +x /tmp/demyx'
     fi
 }

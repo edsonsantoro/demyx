@@ -3,7 +3,7 @@ FROM quay.io/vektorlab/ctop:0.7.1 as demyx_ctop
 FROM docker as demyx_docker
 FROM alpine
 
-LABEL sh.demyx.image demyx/demyx
+LABEL sh.demyx.image santorodevstudio/demyx
 LABEL sh.demyx.maintainer Demyx <info@demyx.sh>
 LABEL sh.demyx.url https://demyx.sh
 LABEL sh.demyx.github https://github.com/demyxco
