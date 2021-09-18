@@ -141,7 +141,7 @@ demyx_run() {
     elif [[ "$DEMYX_RUN_STACK" = ols ]]; then
         DEMYX_APP_WP_IMAGE=demyx/openlitespeed
     elif [[ "$DEMYX_RUN_STACK" = ols-bedrock ]]; then
-        DEMYX_APP_WP_IMAGE=demyx/openlitespeed:bedrock
+        DEMYX_APP_WP_IMAGE= santorodevstudio/openlitespeed:bedrock
     else
         DEMYX_APP_WP_IMAGE=demyx/wordpress
         DEMYX_RUN_STACK=nginx-php

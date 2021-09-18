@@ -948,7 +948,7 @@ demyx_config() {
                         sed -i "s|DEMYX_APP_STACK=.*|DEMYX_APP_STACK=ols|g" "$DEMYX_APP_PATH"/.env
                 elif [[ "$DEMYX_CONFIG_STACK" = ols-bedrock ]]; then
                     [[ "$DEMYX_APP_STACK" = nginx-php || "$DEMYX_APP_STACK" = ols ]] && demyx_die "$DEMYX_APP_DOMAIN can't be converted"
-                    demyx_execute sed -i "s|DEMYX_APP_WP_IMAGE=.*|DEMYX_APP_WP_IMAGE=demyx/openlitespeed:bedrock|g" "$DEMYX_APP_PATH"/.env; \
+                    demyx_execute sed -i "s|DEMYX_APP_WP_IMAGE=.*|DEMYX_APP_WP_IMAGE= santorodevstudio/openlitespeed:bedrock|g" "$DEMYX_APP_PATH"/.env; \
                         sed -i "s|DEMYX_APP_STACK=.*|DEMYX_APP_STACK=ols-bedrock|g" "$DEMYX_APP_PATH"/.env
                 fi
 

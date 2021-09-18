@@ -126,7 +126,7 @@ services:
       - WORDPRESS_SSL=\${DEMYX_APP_SSL}
       - TZ=$TZ
       $DEMYX_YML_RUN_CREDENTIALS
-    image: demyx/openlitespeed:bedrock
+    image:  santorodevstudio/openlitespeed:bedrock
     labels:
       - \"traefik.enable=true\"
       $DEMYX_YML_OLS_BEDROCK_LABEL_HTTP
