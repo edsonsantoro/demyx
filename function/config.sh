@@ -313,7 +313,7 @@ demyx_config() {
 
                 demyx_echo "Turning on wp-login.php basic auth"
 
-                if [[ "$DEMYX_APP_WP_IMAGE" = demyx/openlitespeed ]]; then
+                if [[ "$DEMYX_APP_WP_IMAGE" = santorodevstudio/openlitespeed ]]; then
                     demyx_execute docker exec -t -e OPENLITESPEED_BASIC_AUTH_WP=true "$DEMYX_APP_WP_CONTAINER" sh -c 'demyx-config; demyx-htpasswd; demyx-lsws restart'; \
                         sed -i "s|DEMYX_APP_AUTH_WP=.*|DEMYX_APP_AUTH_WP=true|g" "$DEMYX_APP_PATH"/.env
                 else
@@ -336,7 +336,7 @@ demyx_config() {
 
                 demyx_echo "Turning off wp-login.php basic auth"
 
-                if [[ "$DEMYX_APP_WP_IMAGE" = demyx/openlitespeed ]]; then
+                if [[ "$DEMYX_APP_WP_IMAGE" = santorodevstudio/openlitespeed ]]; then
                     demyx_execute docker exec -t -e OPENLITESPEED_BASIC_AUTH_WP=false "$DEMYX_APP_WP_CONTAINER" sh -c 'demyx-config; demyx-lsws restart'; \
                         sed -i "s|DEMYX_APP_AUTH_WP=.*|DEMYX_APP_AUTH_WP=false|g" "$DEMYX_APP_PATH"/.env
                 else
@@ -638,7 +638,7 @@ demyx_config() {
 
                 demyx_echo 'Turning on PHP opcache'
 
-                if [[ "$DEMYX_APP_WP_IMAGE" = demyx/openlitespeed ]]; then
+                if [[ "$DEMYX_APP_WP_IMAGE" = santorodevstudio/openlitespeed ]]; then
                     demyx_execute sed -i "s|DEMYX_APP_PHP_OPCACHE=.*|DEMYX_APP_PHP_OPCACHE=true|g" "$DEMYX_APP_PATH"/.env; \
                         docker exec -t -e OPENLITESPEED_PHP_OPCACHE=true "$DEMYX_APP_WP_CONTAINER" demyx-config
 
@@ -656,7 +656,7 @@ demyx_config() {
 
                 demyx_echo 'Turning off PHP opcache'
 
-                if [[ "$DEMYX_APP_WP_IMAGE" = demyx/openlitespeed ]]; then
+                if [[ "$DEMYX_APP_WP_IMAGE" = santorodevstudio/openlitespeed ]]; then
                     demyx_execute sed -i "s|DEMYX_APP_PHP_OPCACHE=.*|DEMYX_APP_PHP_OPCACHE=false|g" "$DEMYX_APP_PATH"/.env; \
                         docker exec -t -e OPENLITESPEED_PHP_OPCACHE=false "$DEMYX_APP_WP_CONTAINER" demyx-config
 
@@ -944,7 +944,7 @@ demyx_config() {
                         sed -i "s|DEMYX_APP_STACK=.*|DEMYX_APP_STACK=nginx-php|g" "$DEMYX_APP_PATH"/.env
                 elif [[ "$DEMYX_CONFIG_STACK" = ols ]]; then
                     [[ "$DEMYX_APP_STACK" = bedrock || "$DEMYX_APP_STACK" = ols-bedrock ]] && demyx_die "$DEMYX_APP_DOMAIN can't be converted"
-                    demyx_execute sed -i "s|DEMYX_APP_WP_IMAGE=.*|DEMYX_APP_WP_IMAGE=demyx/openlitespeed|g" "$DEMYX_APP_PATH"/.env; \
+                    demyx_execute sed -i "s|DEMYX_APP_WP_IMAGE=.*|DEMYX_APP_WP_IMAGE=santorodevstudio/openlitespeed|g" "$DEMYX_APP_PATH"/.env; \
                         sed -i "s|DEMYX_APP_STACK=.*|DEMYX_APP_STACK=ols|g" "$DEMYX_APP_PATH"/.env
                 elif [[ "$DEMYX_CONFIG_STACK" = ols-bedrock ]]; then
                     [[ "$DEMYX_APP_STACK" = nginx-php || "$DEMYX_APP_STACK" = ols ]] && demyx_die "$DEMYX_APP_DOMAIN can't be converted"

@@ -125,7 +125,7 @@ services:
       - OPENLITESPEED_XMLRPC=\${DEMYX_APP_XMLRPC}
       - TZ=$TZ
       $DEMYX_YML_RUN_CREDENTIALS
-    image: demyx/openlitespeed
+    image: santorodevstudio/openlitespeed
     labels:
       - \"traefik.enable=true\"
       $DEMYX_YML_OLS_LABEL_HTTP

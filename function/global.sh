@@ -230,9 +230,9 @@ demyx_update_local() {
         echo "DEMYX_LOCAL_BROWSERSYNC_VERSION=$(docker run --rm --entrypoint=browser-sync demyx/browsersync --version 2>&1 | sed 's/\r//g')" >> "$DEMYX"/.update_local
     fi
 
-    if [[ -n "$(docker images demyx/openlitespeed:latest -q)" ]]; then
-        echo "DEMYX_LOCAL_OPENLITESPEED_VERSION=$(docker run --rm --entrypoint=cat demyx/openlitespeed /usr/local/lsws/VERSION 2>&1 | sed 's/\r//g')" >> "$DEMYX"/.update_local
-        echo "DEMYX_LOCAL_OPENLITESPEED_LSPHP_VERSION=$(docker run --rm --entrypoint=bash demyx/openlitespeed -c '/usr/local/lsws/lsphp74/bin/lsphp -v' 2>&1 | head -1 | awk '{print $2}' | sed 's/\r//g')" >> "$DEMYX"/.update_local
+    if [[ -n "$(docker images santorodevstudio/openlitespeed:latest -q)" ]]; then
+        echo "DEMYX_LOCAL_OPENLITESPEED_VERSION=$(docker run --rm --entrypoint=cat santorodevstudio/openlitespeed /usr/local/lsws/VERSION 2>&1 | sed 's/\r//g')" >> "$DEMYX"/.update_local
+        echo "DEMYX_LOCAL_OPENLITESPEED_LSPHP_VERSION=$(docker run --rm --entrypoint=bash santorodevstudio/openlitespeed -c '/usr/local/lsws/lsphp74/bin/lsphp -v' 2>&1 | head -1 | awk '{print $2}' | sed 's/\r//g')" >> "$DEMYX"/.update_local
     fi
 
     if [[ -n "$(docker images demyx/ssh:latest -q)" ]]; then
@@ -264,7 +264,7 @@ demyx_update_remote() {
         echo "DEMYX_REMOTE_BROWSERSYNC_VERSION=$DEMYX_BROWSERSYNC_VERSION" >> "$DEMYX"/.update_remote
     fi
 
-    if [[ -n "$(docker images demyx/openlitespeed:latest -q)" ]]; then
+    if [[ -n "$(docker images santorodevstudio/openlitespeed:latest -q)" ]]; then
         echo "DEMYX_REMOTE_OPENLITESPEED_VERSION=$DEMYX_OPENLITESPEED_VERSION" >> "$DEMYX"/.update_remote
         echo "DEMYX_REMOTE_OPENLITESPEED_LSPHP_VERSION=$DEMYX_OPENLITESPEED_LSPHP_VERSION"  >> "$DEMYX"/.update_remote
     fi
