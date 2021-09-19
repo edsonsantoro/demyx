@@ -137,7 +137,7 @@ demyx_run() {
     [[ -n "$DEMYX_RUN_CLONE" ]] && DEMYX_RUN_CLONE_APP="$(demyx info "$DEMYX_RUN_CLONE" --filter=DEMYX_APP_WP_CONTAINER)"
 
     if [[ "$DEMYX_RUN_STACK" = bedrock ]]; then
-        DEMYX_APP_WP_IMAGE=demyx/wordpress:bedrock
+        DEMYX_APP_WP_IMAGE=santorodevstudio/wordpress:bedrock
     elif [[ "$DEMYX_RUN_STACK" = ols ]]; then
         DEMYX_APP_WP_IMAGE=santorodevstudio/openlitespeed
     elif [[ "$DEMYX_RUN_STACK" = ols-bedrock ]]; then

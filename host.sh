@@ -301,7 +301,7 @@ elif [[ "$DEMYX_HOST" = host ]]; then
                 docker pull demyx/"$i"
             fi
 
-            [[ "$i" = wordpress && -n "$(docker images demyx/wordpress:bedrock -q)" ]] && docker pull demyx/wordpress:bedrock
+            [[ "$i" = wordpress && -n "$(docker images santorodevstudio/wordpress:bedrock -q)" ]] && docker pull santorodevstudio/wordpress:bedrock
 
             # Set variable to true if there's an update for the following images: mariadb, nginx, and wordpress/wordpress:bedrock
             [[ "$i" = mariadb || "$i" = nginx || "$i" = wordpress ]] && DEMYX_HOST_IMAGE_WP_UPDATE=true

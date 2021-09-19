@@ -139,7 +139,7 @@ services:
       - WORDPRESS_PHP_PM_MAX_REQUESTS=\${DEMYX_APP_PHP_PM_MAX_REQUESTS}
       - TZ=$TZ
       $DEMYX_YML_RUN_CREDENTIALS
-    image: demyx/wordpress:bedrock
+    image: santorodevstudio/wordpress:bedrock
     mem_limit: \${DEMYX_APP_WP_MEM}
     networks:
       - demyx

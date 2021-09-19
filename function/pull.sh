@@ -25,7 +25,7 @@ demyx_pull() {
         docker pull demyx/utilities
         docker pull demyx/wordpress
         # Pull Bedrock
-        [[ -n "$(docker images demyx/wordpress:bedrock -q)" ]] && docker pull demyx/wordpress:bedrock
+        [[ -n "$(docker images santorodevstudio/wordpress:bedrock -q)" ]] && docker pull santorodevstudio/wordpress:bedrock
         docker pull demyx/wordpress:cli
 
         # Third party images
