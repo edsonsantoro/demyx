@@ -151,6 +151,9 @@ services:
     volumes:
       - wp_${DEMYX_APP_ID}:/demyx
       - wp_${DEMYX_APP_ID}_log:/var/log/demyx
+      - /var/opt/bedrock/web/app/plugins:/demyx/web/wp/wp-content/plugins
+      - /var/opt/bedrock/web/app/themes:/demyx/web/wp/wp-content/themes
+      - /var/opt/bedrock/web/app/mu-plugins:/demyx/web/wp/wp-content/mu-plugins
 version: \"$DEMYX_DOCKER_COMPOSE\"
 volumes:
   wp_${DEMYX_APP_ID}:
