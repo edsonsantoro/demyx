@@ -151,6 +151,7 @@ services:
     volumes:
       - wp_${DEMYX_APP_ID}:/demyx
       - wp_${DEMYX_APP_ID}_log:/var/log/demyx
+      - /${DEMYX_HOST_PRODUCTS_PATH}/${DEMYX_RUN_PRODUCT_NAME}/${DEMYX_RUN_PRODUCT_VERSION}/web/wp:/demyx/web/wp
 version: \"$DEMYX_DOCKER_COMPOSE\"
 volumes:
   wp_${DEMYX_APP_ID}:

@@ -165,6 +165,13 @@ demyx_help() {
         echo "demyx pull wordpress:bedrock"
         echo "demyx pull wordpress:cli"
         echo
+    elif [[ "$DEMYX_HELP" = product ]]; then
+        echo "demyx product <name> <args>                  Creates a new WordPress Multi-Tenancy Product (install)"
+        echo "                      --version              Specifies a product version name (defaults to dev)"
+    elif [[ "$DEMYX_HELP" = version ]]; then
+        echo "demyx version <product> <args>               Creates a new WordPress Multi-Tenancy Product Version based on an existing one"
+        echo "                      --version              Specifies a product version name to copy from (can not be empty)"
+        echo "                      --new-version          Specifies a new product version name (can not be empty)"
     elif [[ "$DEMYX_HELP" = refresh ]]; then
         echo
         echo "demyx refresh <app> <args>            Regenerate .env/.yml files of an app"

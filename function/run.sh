@@ -68,7 +68,7 @@ demyx_run() {
             --stack=)
                 demyx_die '"--stack" cannot be empty'
                 ;;
-            --type=wp|--type=php|--type=html)
+            --type=wp|--type=php|--type=html|--type=wp-product|--type=wp-version|--type=wp-site)
                 DEMYX_RUN_TYPE="${3#*=}"
                 ;;
             --type=)
@@ -79,6 +79,24 @@ demyx_run() {
                 ;;
             --user=)
                 demyx_die '"--user" cannot be empty'
+                ;;
+            --name=?*)
+                DEMYX_RUN_PRODUCT_NAME="${3#*=}"
+                ;;
+            --name=)
+                DEMYX_RUN_PRODUCT_NAME=false
+                ;;
+            --new-version=?*)
+                DEMYX_RUN_NEW_PRODUCT_VERSION="${3#*=}"
+                ;;
+            --new-version=)
+                DEMYX_RUN_NEW_PRODUCT_VERSION=false
+                ;;
+            --version=?*)
+                DEMYX_RUN_PRODUCT_VERSION="${3#*=}"
+                ;;
+            --version=)
+                DEMYX_RUN_PRODUCT_VERSION=false
                 ;;
             --whitelist=all|--whitelist=login)
                 DEMYX_RUN_WHITELIST="${3#*=}"
@@ -97,6 +115,30 @@ demyx_run() {
         shift
     done
 
+    if [[ "$DEMYX_RUN_TYPE" = wp-product ]]; then
+
+        if [[ "$DEMYX_RUN_PRODUCT_NAME" = false  ]]; then
+            demyx_die 'You must specify a product name with --name'
+        fi
+        if [[ "$DEMYX_RUN_PRODUCT_VERSION" = false  ]]; then
+            demyx_die 'You must specify a product version to run with --version'
+        fi
+
+        demyx_echo 'Checking product name...'
+        DEMYX_RUN_PRODUCT_EXISTS="$(find /"$DEMYX_HOST_PRODUCTS_PATH" -name "$DEMYX_RUN_PRODUCT_NAME" || true)"
+
+        if [[ -n "$DEMYX_RUN_PRODUCT_EXISTS" ]]; then
+            DEMYX_RUN_VERSION_EXISTS="$(find /"$DEMYX_HOST_PRODUCTS_PATH"/"$DEMYX_RUN_PRODUCT_NAME" -name "$DEMYX_RUN_PRODUCT_VERSION" || true)"
+            if [[ -n "$DEMYX_RUN_VERSION_EXISTS" ]]; then
+                demyx_echo 'Product and version checked'
+            else
+                demyx_die 'Product version does not exists'
+            fi
+        else
+            demyx_die 'Product name not found'
+        fi
+    fi
+
     DEMYX_RUN_CHECK="$(find "$DEMYX_APP" -name "$DEMYX_TARGET" || true)"
     DEMYX_RUN_TODAYS_DATE="$(date +%Y-%m-%d)"
 
@@ -107,24 +149,24 @@ demyx_run() {
     if [[ -n "$DEMYX_RUN_CLONE" ]]; then
         DEMYX_RUN_CLONE_CHECK="$(find "$DEMYX_APP" -name "$DEMYX_RUN_CLONE" || true)"
         [[ -z "$DEMYX_RUN_CLONE_CHECK" ]] && demyx_die "App doesn't exist"
-    fi
-
+    fi        
+    
     if [[ -n "$DEMYX_RUN_CHECK" ]]; then
-        if [[ -n "$DEMYX_RUN_FORCE" ]]; then
-            DEMYX_RM_CONFIRM=y
-        else
-            echo -en "\e[33m"
-            read -rep "[WARNING] Delete $DEMYX_TARGET? [yY]: " DEMYX_RM_CONFIRM
-            echo -en "\e[39m"
-        fi
-        if [[ "$DEMYX_RM_CONFIRM" != [yY] ]]; then
-            demyx_die 'Cancel deletion'
-        else
-            demyx rm "$DEMYX_TARGET" -f
-        fi
-        if [[ -n "$DEMYX_RUN_CLOUDFLARE" && -z "$DEMYX_EMAIL" && -z "$DEMYX_CF_KEY" ]]; then
-            demyx_die 'Missing Cloudflare key and/or email, please run demyx help stack'
-        fi
+            if [[ -n "$DEMYX_RUN_FORCE" ]]; then
+                DEMYX_RM_CONFIRM=y
+            else
+                echo -en "\e[33m"
+                read -rep "[WARNING] Delete $DEMYX_TARGET? [yY]: " DEMYX_RM_CONFIRM
+                echo -en "\e[39m"
+            fi
+            if [[ "$DEMYX_RM_CONFIRM" != [yY] ]]; then
+                demyx_die 'Cancel deletion'
+            else
+                demyx rm "$DEMYX_TARGET" -f
+            fi
+            if [[ -n "$DEMYX_RUN_CLOUDFLARE" && -z "$DEMYX_EMAIL" && -z "$DEMYX_CF_KEY" ]]; then
+                demyx_die 'Missing Cloudflare key and/or email, please run demyx help stack'
+            fi
     fi
 
     DEMYX_RUN_TYPE="${DEMYX_RUN_TYPE:-wp}"
@@ -161,7 +203,8 @@ demyx_run() {
     demyx_source env
     demyx_source yml
 
-    if [[ "$DEMYX_RUN_TYPE" = wp ]]; then
+    if [[ "$DEMYX_RUN_TYPE" = wp || "$DEMYX_RUN_TYPE" = wp-product || "$DEMYX_RUN_TYPE" = wp-version || "$DEMYX_RUN_TYPE" = wp-site ]]; then        
+
         demyx_echo 'Creating directory'
         demyx_execute mkdir -p "$DEMYX_WP"/"$DEMYX_TARGET"
 
@@ -387,6 +430,13 @@ demyx_run() {
         fi
 
         PRINT_TABLE="DEMYX^ ${DEMYX_RUN_TABLE_TITLE}\n"
+
+        if [[ "${DEMYX_RUN_TYPE}" = wp-product || "${DEMYX_RUN_TYPE}" = wp-version || "${DEMYX_RUN_TYPE}" = wp-site ]]; then
+            PRINT_TABLE+="PRODUCT NAME^ ${DEMYX_RUN_PRODUCT_NAME}\n"
+            PRINT_TABLE+="PRODUCT VERSION^ ${DEMYX_RUN_PRODUCT_VERSION}\n"
+            PRINT_TABLE+="PRODUCT PATH^ ${DEMYX_HOST_INSTALL_PRODUCTS_PATH}/${DEMYX_RUN_PRODUCT_NAME}/${DEMYX_RUN_PRODUCT_VERSION}\n"
+            PRINT_TABLE+="^\n"
+        fi
 
         if [[ "$DEMYX_RUN_STACK" = ols || "$DEMYX_RUN_STACK" = ols-bedrock ]]; then
             PRINT_TABLE+="OPENLITESPEED URL^ ${DEMYX_RUN_PROTO}/demyx/ols/\n"

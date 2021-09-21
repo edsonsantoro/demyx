@@ -18,6 +18,7 @@ DEMYX_HOST_COMMAND="${2:-}"
 DEMYX_HOST_CONFIG="$HOME"/.demyx
 DEMYX_HOST_DOCKER_PS="$(docker ps)"
 DEMYX_HOST_DEMYX_CHECK="$(echo "$DEMYX_HOST_DOCKER_PS" | grep demyx-init | grep Up || true)"
+DEMYX_HOST_PRODUCTS_PATH=/var/opt/products
 #DEMYX_HOST_SOCKET_CHECK="$(echo "$DEMYX_HOST_DOCKER_PS" | awk '{print $NF}' | grep -w demyx_socket || true)"
 
 # Update check
@@ -63,6 +64,7 @@ demyx_config() {
         DEMYX_HOST_HEALTHCHECK=${DEMYX_HOST_HEALTHCHECK:-true}
         DEMYX_HOST_HEALTHCHECK_TIMEOUT=${DEMYX_HOST_HEALTHCHECK_TIMEOUT:-30}
         DEMYX_HOST_HOSTNAME=${DEMYX_HOST_HOSTNAME:-$(hostname)}
+        DEMYX_HOST_PRODUCTS_PATH=${DEMYX_HOST_PRODUCTS_PATH:-/var/opt/products}
         DEMYX_HOST_MEM=${DEMYX_HOST_MEM:-512m}
         DEMYX_HOST_MONITOR=${DEMYX_HOST_MONITOR:-true}
         DEMYX_HOST_SERVER_IP=${DEMYX_HOST_SERVER_IP:-$(docker run -t --rm --user=root --entrypoint=curl santorodevstudio/demyx -s https://ipecho.net/plain)}
@@ -128,6 +130,12 @@ demyx_install() {
         sed -i "s|DEMYX_HOST_IP=.*|DEMYX_HOST_IP=${DEMYX_HOST_INSTALL_IP:-false}|g" "$DEMYX_HOST_CONFIG"
     fi
 
+    if [[ "$DEMYX_HOST_PRODUCTS_PATH" = /var/opt/products ]]; then
+        echo -e "\n\e[34m[INFO]\e[39m Enter the host path where demyx should install your wordpress multitenant products and versions"
+        read -rep "(Default: /var/opt/products): " DEMYX_HOST_INSTALL_PRODUCTS_PATH
+        sed -i "s|DEMYX_HOST_PRODUCTS_PATH=.*|DEMYX_HOST_PRODUCTS_PATH=${DEMYX_HOST_INSTALL_PRODUCTS_PATH:-/var/opt/products}|g" "$DEMYX_HOST_INSTALL_PRODUCTS_PATH"
+    fi
+
     if [[ -n "${DEMYX_HOST_INSTALL_IP:-}" || "$DEMYX_HOST_IP" != false ]]; then
         echo -e "\n\e[34m[INFO]\e[39m Enable Traefik dashboard? true/false (IP whitelist and basic auth protected)"
         read -rep "(Default: false): " DEMYX_HOST_INSTALL_TRAEFIK_DASHBOARD
@@ -167,6 +175,7 @@ demyx_install() {
     echo -e "\n\e[34m[INFO]\e[39m Demyx config has been updated! To see or edit more demyx config, run: demyx host config"
     echo -e "\n\e[34m[INFO]\e[39m Basic auth username: $DEMYX_HOST_AUTH_USERNAME"
     echo -e "\e[34m[INFO]\e[39m Basic auth password: $DEMYX_HOST_AUTH_PASSWORD"
+    echo -e "\e[34m[INFO]\e[39m WP Multitenant products path: $DEMYX_HOST_PRODUCTS_PATH"
     [[ "$DEMYX_HOST_TRAEFIK_DASHBOARD" = true ]] && echo -e "\e[34m[INFO]\e[39m Traefik dashboard: https://${DEMYX_HOST_TRAEFIK_DASHBOARD_DOMAIN}.${DEMYX_HOST_DOMAIN}"
     [[ "$DEMYX_HOST_CODE" = true ]] && echo -e "\e[34m[INFO]\e[39m code-server: https://${DEMYX_HOST_CODE_DOMAIN}.${DEMYX_HOST_DOMAIN}"
     [[ "$DEMYX_HOST_CODE" = true ]] && echo -e "\e[34m[INFO]\e[39m code-server password: $DEMYX_HOST_CODE_PASSWORD"
@@ -206,6 +215,7 @@ demyx_run() {
     -e DEMYX_HEALTHCHECK_ENABLE="$DEMYX_HOST_HEALTHCHECK" \
     -e DEMYX_HEALTHCHECK_TIMEOUT="$DEMYX_HOST_HEALTHCHECK_TIMEOUT" \
     -e DEMYX_HOSTNAME="$DEMYX_HOST_HOSTNAME" \
+    -e DEMYX_HOST_PRODUCTS_PATH="$DEMYX_HOST_PRODUCTS_PATH" \
     -e DEMYX_IMAGE_VERSION="$DEMYX_HOST_IMAGE_VERSION" \
     -e DEMYX_IP="$DEMYX_HOST_IP" \
     -e DEMYX_MEM="$DEMYX_HOST_MEM" \

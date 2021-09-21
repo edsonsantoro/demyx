@@ -51,6 +51,30 @@ demyx_yml() {
         else
             demyx_source yml-"$DEMYX_APP_STACK"
         fi
+
+        if [[ "$DEMYX_APP_TYPE" = wp-product ]]; then
+            if [[ "$DEMYX_APP_DEV" = true ]]; then
+                demyx_source yml-ols-bedrock-product-dev
+            else
+                demyx_source yml-ols-bedrock-product
+            fi
+        fi
+
+        if [[ "$DEMYX_APP_TYPE" = wp-version ]]; then
+          if [[ "$DEMYX_APP_DEV" = true ]]; then
+              demyx_source yml-ols-bedrock-version-dev
+          else
+              demyx_source yml-ols-bedrock-version
+          fi
+        fi
+
+        if [[ "$DEMYX_APP_TYPE" = wp-site ]]; then
+          if [[ "$DEMYX_APP_DEV" = true ]]; then
+              demyx_source yml-ols-bedrock-site-dev
+          else
+              demyx_source yml-ols-bedrock-site
+          fi
+        fi
     fi
 }
 demyx_code_yml() {
