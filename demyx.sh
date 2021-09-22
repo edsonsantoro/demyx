@@ -65,16 +65,13 @@ elif [[ "$DEMYX_COMMAND" = pull ]]; then
     demyx_pull "$@"
 elif [[ "$DEMYX_COMMAND" = product ]]; then
     source "$DEMYX_FUNCTION"/product.sh
-    shift
-    demyx_pull "$@"
+    demyx_product "$@"
 elif [[ "$DEMYX_COMMAND" = version ]]; then
     source "$DEMYX_FUNCTION"/version.sh
-    shift
-    demyx_pull "$@"
+    demyx_version "$@"
 elif [[ "$DEMYX_COMMAND" = connect ]]; then
-    source "$DEMYX_FUNCTION"/coneect.sh
-    shift
-    demyx_pull "$@"
+    source "$DEMYX_FUNCTION"/connect.sh
+    demyx_connect "$@"
 elif [[ "$DEMYX_COMMAND" = refresh ]]; then
     source "$DEMYX_FUNCTION"/refresh.sh
     demyx_refresh "$@"
